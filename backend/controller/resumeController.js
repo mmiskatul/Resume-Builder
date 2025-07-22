@@ -89,10 +89,30 @@ export const getUserResume = async (req, res) => {
     const resumes = await Resume.find({ userId: req.user._id }).sort({
       updateAt: -1,
     });
-    res.json(resumes)
+    res.json(resumes);
   } catch (error) {
     res.status(500).json({
-        message:"Failed to get Resume ",error:error.message
+      message: "Failed to get Resume ",
+      error: error.message,
+    });
+  }
+};
+// GET RESUME BY ID
+export const getResumeById = async (req, res) => {
+  try {
+    const resume = await Resume.findOne({
+      _id: req.params.id,
+      userId: req.user._id,
+    });
+    if (!resume) {
+      return res.status(404).json({ message: "Resume Not Found" });
+    }
+    res.json(resume);
+  } catch (error) {
+    res.status(500).json({
+        message:"Resume Not found"
     })
   }
 };
+
+// 
