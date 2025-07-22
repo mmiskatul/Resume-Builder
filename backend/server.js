@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 import { connecTotDb } from './config/db.js';
+import userRouter from './routes/userRoutes.js';
 
 
 // 
@@ -15,6 +16,8 @@ connecTotDb()
 
 // MIDDLEWARE
 app.use(express.json());
+
+app.use('/api/auth',userRouter);
 
 // ROUTE
 app.get('/',(req,res)=>{

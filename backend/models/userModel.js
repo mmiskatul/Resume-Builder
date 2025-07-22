@@ -12,6 +12,6 @@ const UserSchema=new mongoose.Schema({
         type:String ,
         required :true,
     }
-},{timeseries: true})
+},{timestamps: true})
 
 export default mongoose.model('Users',UserSchema);
