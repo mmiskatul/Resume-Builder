@@ -60,10 +60,27 @@ export const loginUser=async(req,res)=>{
         const user=await User.findOne({email});
         if(!user){
             return res.status(404).json({
-                message:"Invalide Credintial "
+                message:"Invalide email or password  "
             }) 
         }
+        // Compare with Password 
+        const isMatch=await bcrypt.compare(password,user.password);
+         if(!isMatch){
+            return res.status(500).json({
+                message :"Invalide email or password"
+            })
+        }
+        res.status(200).json({
+            _id:user._id,
+            name:user.name,
+            email:user.email,
+            token:generateToken(user._id)
+
+        })
     } catch (error) {
-        
+         res.status(500).json({
+            message:"Sever Error !Somthing Went Wrong ",
+            error:error.message
+        })
     }
 }
